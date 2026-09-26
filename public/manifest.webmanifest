@@ -1,0 +1,16 @@
+{
+  "name": "Love or Friendship",
+  "short_name": "LoF",
+  "description": "Jeux de salon en ligne. Le hors ligne arrive bientôt, avec l'application réelle.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f3e6dc",
+  "theme_color": "#f3e6dc",
+  "lang": "fr",
+  "icons": [
+    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

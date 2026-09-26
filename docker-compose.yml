@@ -1,0 +1,36 @@
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: lof
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD}
+      POSTGRES_DB: lof
+    volumes:
+      - lof-pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U lof -d lof"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+  web:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: 8787
+      DATABASE_URL: postgres://lof:${POSTGRES_PASSWORD}@db:5432/lof
+      BCRYPT_ROUNDS: "12"
+      COOKIE_SECURE: ${COOKIE_SECURE:-0}
+      UPLOAD_DIR: /app/server/uploads
+    ports:
+      - "${PORT:-8787}:8787"
+    volumes:
+      - lof-uploads:/app/server/uploads
+volumes:
+  lof-pg:
+  lof-uploads:
